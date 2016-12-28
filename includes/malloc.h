@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lem_in.h                                           :+:      :+:    :+:   */
+/*   malloc.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -15,48 +15,23 @@
 # include "libft.h"
 # include <sys/mman.h>
 
-# define TINY getpagesize()
-# define SMALL getpagesize() * 10
+# define TINY (unsigned int)getpagesize() * 100
+# define SMALL (unsigned int)getpagesize() * 10000
 
 
-typedef struct	s_malloc
+typedef struct 	s_alloc
 {
 	void			*start;
-	void			*end;
-	struct s_malloc	*next;
-}				t_malloc;
+	size_t			length;
+	struct s_alloc 	*next;
+}				t_alloc;
 
-typedef struct	s_zone_tiny
+typedef struct 	s_zone
 {
-	void				*zone;
-	void				*position;
-	size_t				max;
-	t_malloc			*alloc;
-	struct s_zone_tiny	*next;
-}				t_zone_tiny;
-
-typedef struct	s_zone_small
-{
-	void				*zone;
-	void				*position;
-	size_t				max;
-	t_malloc			*alloc;
-	struct s_zone_small	*next;
-}				t_zone_small;
-
-typedef struct	s_zone_large
-{
-	void				*zone;
-	void				*start;
-	void				*end;
-	struct s_zone_large	*next;
-}				t_zone_large;
-
-typedef struct	s_zone
-{
-	t_zone_tiny		*tiny;
-	t_zone_small	*small;
-	t_zone_large	*large;
+	short			type;
+	void			*start;
+	t_alloc 		*alloc;
+ 	struct s_zone	*next;
 }				t_zone;
 
 #endif
