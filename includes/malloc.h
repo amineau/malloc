@@ -34,4 +34,7 @@ typedef struct 	s_zone
  	struct s_zone	*next;
 }				t_zone;
 
+t_zone 		**get_static();
+void		show_alloc_mem(t_zone *zone);
+
 #endif
