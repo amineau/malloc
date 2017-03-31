@@ -31,7 +31,7 @@ t_zone	*zone_create(size_t size, short type)
 		return (NULL);
 	zone->type = type;
 	zone->next = NULL;
-	printf("******Create zone type %d, start in %p, end in %p*******\n", type, zone->start, zone->start + size);
+	printf("******Create zone type %d, start in %#lx, end in %#lx*******\n", type, (uintptr_t)zone->start, (uintptr_t)zone->start + size);
 	return (zone);
 }
 
