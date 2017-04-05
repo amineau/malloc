@@ -12,11 +12,15 @@
 
 #include "malloc.h"
 #include <stdio.h>
+<<<<<<< HEAD
 
 t_zone *g_zone;
+=======
+>>>>>>> 723bde1f0907ae766fca610359143cfcf2e2e129
 
-void	show_alloc_mem()
+char 	*type_str(short type)
 {
+<<<<<<< HEAD
 	t_zone *tmp;
 	size_t size;
 
@@ -53,4 +57,30 @@ void	show_alloc_mem()
 	if (size != 1)
 		ft_putchar('s');
 	ft_putendl("");
+=======
+	if (type == 0)
+		return ("TINY");
+	if (type == 1)
+		return ("SMALL");
+	return ("LARGE");
+}
+
+void	show_alloc_mem(t_zone *zone)
+{
+	t_zone	*tmp;
+	t_alloc *alloc;
+
+	tmp = zone;
+	while (tmp)
+	{
+		printf("%s : %p\n", type_str(zone->type), zone->start);
+		alloc = tmp->alloc;
+		while (alloc)
+		{
+			printf("%p - %p : %zu octets\n", alloc->start, alloc->start + alloc->length - 1, alloc->length);
+			alloc = alloc->next;
+		}
+		tmp = tmp->next;
+	}
+>>>>>>> 723bde1f0907ae766fca610359143cfcf2e2e129
 }

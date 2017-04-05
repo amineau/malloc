@@ -36,6 +36,7 @@ typedef struct 	s_zone
  	struct s_zone	*next;
 }				t_zone;
 
+<<<<<<< HEAD
 extern t_zone 	*g_zone;
 
 // void		ft_free(void *ptr);
@@ -48,4 +49,9 @@ t_zone	*zone_create(size_t size, char *type);
 void		zone_insert(t_zone *zone);
 char		*type_zone(size_t type);
 size_t	length_zone(size_t size);
+=======
+t_zone 		**get_static();
+void		show_alloc_mem(t_zone *zone);
+
+>>>>>>> 723bde1f0907ae766fca610359143cfcf2e2e129
 #endif
