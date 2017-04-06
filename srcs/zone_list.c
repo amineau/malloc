@@ -12,7 +12,7 @@
 
 #include "malloc.h"
 
-t_zone *g_zone;
+t_zone **g_zone;
 
 t_zone	*zone_create(size_t size, char *type)
 {
@@ -33,11 +33,11 @@ void		zone_insert(t_zone *zone)
 
 	// if (!zone)
 	// 	return(void);
-	tmp = g_zone;
+	tmp = *g_zone;
 	if (tmp > zone)
 	{
-		zone->next = g_zone;
-		g_zone = zone;
+		zone->next = *g_zone;
+		*g_zone = zone;
 	}
 	else
 	{

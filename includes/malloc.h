@@ -16,8 +16,8 @@
 # include "ft_printf.h"
 # include <sys/mman.h>
 
-# define TINY (unsigned int)getpagesize() * 1
-# define SMALL (unsigned int)getpagesize() * 10
+# define TINY (unsigned int)getpagesize() * 10
+# define SMALL (unsigned int)getpagesize() * 1000
 
 
 typedef struct 	s_alloc
@@ -29,16 +29,16 @@ typedef struct 	s_alloc
 
 typedef struct 	s_zone
 {
-	char					*type;
-	void					*start;
+	char				*type;
+	void				*start;
 	t_alloc				*current;
 	t_alloc 			*alloc;
  	struct s_zone	*next;
 }				t_zone;
 
-extern t_zone 	*g_zone;
+extern t_zone 	**g_zone;
 
-// void		ft_free(void *ptr);
+void		ft_free(void *ptr);
 void 		*ft_malloc(size_t size);
 void 		*ft_realloc(void *ptr, size_t size);
 void		show_alloc_mem();

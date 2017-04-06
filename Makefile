@@ -13,7 +13,7 @@
 NAME=malloc
 CC = gcc
 
-SRCS = main.c show_alloc_mem.c zone_list.c zone.c get_static.c
+SRCS = main.c show_alloc_mem.c zone_list.c zone.c get_static.c free.c
 
 LIBPATH = libft
 SPATH = srcs
