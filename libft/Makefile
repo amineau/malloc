@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amineau <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: amineau <amineau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/23 15:32:27 by amineau           #+#    #+#              #
-#    Updated: 2016/03/22 14:03:09 by amineau          ###   ########.fr        #
+#    Updated: 2017/04/07 17:14:33 by amineau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=libprt.a
-CC = gcc 
+CC = gcc
 FLAGS = -Wall -Werror -Wextra
 
 SRCS = ft_printf.c ft_stock.c ft_list.c ft_algo.c ft_straddc.c ft_itoa_double.c\
@@ -35,7 +35,8 @@ SRCS += ft_putchar.c ft_putstr.c ft_putendl.c ft_putnbr.c ft_strlen.c \
 		ft_min.c ft_max.c ft_putnbrendl.c ft_strclnjoin.c ft_strndup.c \
 		get_next_line.c ft_abs.c ft_strcasecmp.c ft_strnchr.c ft_itoa_base.c \
 		ft_power.c ft_strcln1join.c ft_itoa_unsi.c ft_itoa_unsi_base.c \
-		ft_strcln2join.c ft_atoi_base.c ft_atol.c
+		ft_strcln2join.c ft_atoi_base.c ft_atol.c ft_pututoabase.c ft_putunsi.c \
+		ft_pututoabaseendl.c ft_putunsiendl.c
 
 SRCDIR = srcs
 OBJDIR = objs

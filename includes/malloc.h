@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 09:27:29 by amineau           #+#    #+#             */
-/*   Updated: 2016/12/26 19:27:23 by amineau          ###   ########.fr       */
+/*   Updated: 2017/04/07 12:20:49 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct 	s_zone
 {
 	char				*type;
 	void				*start;
+	size_t			length;
 	t_alloc				*current;
 	t_alloc 			*alloc;
  	struct s_zone	*next;
@@ -48,5 +49,6 @@ t_zone	*zone_create(size_t size, char *type);
 void		zone_insert(t_zone *zone);
 char		*type_zone(size_t type);
 size_t	length_zone(size_t size);
+void 		free_zone(t_zone *zone);
 
 #endif

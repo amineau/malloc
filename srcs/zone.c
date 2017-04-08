@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 13:17:38 by amineau           #+#    #+#             */
-/*   Updated: 2016/12/26 13:28:56 by amineau          ###   ########.fr       */
+/*   Updated: 2017/04/07 18:33:39 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ size_t	length_zone(size_t size)
 {
 	size_t length;
 
+	if (size > SMALL)
+		return (size);
 	length = (size + sizeof(t_alloc)) * 100 + sizeof(t_zone);
+	ft_printf("%zu ====== %zu\n", size, length);
 	if (length < TINY)
 		return (TINY);
 	else if (length < SMALL)

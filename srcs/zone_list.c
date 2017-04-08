@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/28 11:54:02 by amineau           #+#    #+#             */
-/*   Updated: 2017/01/28 19:48:09 by amineau          ###   ########.fr       */
+/*   Updated: 2017/04/07 17:53:52 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ t_zone	*zone_create(size_t size, char *type)
 {
 	t_zone	*zone;
 
-	if (!(zone = (t_zone*)mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)))
+	if ((void*)(zone = (t_zone*)mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	zone->start = (void*)zone + sizeof(t_zone);
 	zone->type = type;
+	zone->length = size;
 	zone->next = NULL;
 	// printf("******Create zone type %d, start in %p, end in %p*******\n", type, zone->start, zone + size);
 	return (zone);
@@ -31,8 +32,6 @@ void		zone_insert(t_zone *zone)
 {
 	t_zone *tmp;
 
-	// if (!zone)
-	// 	return(void);
 	tmp = *g_zone;
 	if (tmp > zone)
 	{
@@ -56,10 +55,19 @@ void		zone_insert(t_zone *zone)
 	}
 }
 
-// void		delete_zone(t_zone *zone)
-// {
-// 	size_t size;
-// 	// if (!zone)
-//  // 	return(void);
-// 	if (ft_strcmp(zone->type, "LARGE"))
-// }
+void		free_zone(t_zone *zone)
+{
+	t_zone	*tmp;
+
+	if (zone == *g_zone)
+		*g_zone = zone->next;
+	else
+	{
+		tmp = *g_zone;
+		while (tmp->next != zone)
+			tmp = tmp->next;
+		tmp->next = tmp->next->next;
+	}
+	if (munmap((void*)zone, zone->length) == -1)
+		ft_putstr("munmap a planté");
+}
