@@ -23,7 +23,7 @@ void ft_free(void *ptr)
 
 	boolean = 1;
 	tmp = *g_zone;
-
+// if last, change current alloc in g_zone
 	while (boolean && tmp)
 	{
 		if (tmp->alloc->start == ptr)
@@ -32,7 +32,7 @@ void ft_free(void *ptr)
 				free_zone(tmp);
 			else
 				tmp->alloc = tmp->alloc->next;
-				boolean = 0;
+			boolean = 0;
 			break;
 		}
 		tmp2 = tmp->alloc;

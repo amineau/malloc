@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: amineau <marvin@42.fr>                     +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/11/23 15:32:27 by amineau           #+#    #+#              #
-#    Updated: 2016/12/26 11:47:05 by amineau          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME=malloc
 CC = gcc
 
@@ -21,7 +9,7 @@ OPATH = objs
 HPATH = includes
 LFTHPATH = $(LIBPATH)/includes
 
-CFLAGS = -Wall -Werror -Wextra -I./$(HPATH) -I./$(LFTHPATH)
+CFLAGS = -I./$(HPATH) -I./$(LFTHPATH) #-Wall -Werror -Wextra
 LIBS =-L./$(LIBPATH) -lprt
 
 SRC = $(addprefix $(SPATH)/,$(SRCS))

@@ -34,7 +34,7 @@ void	show_alloc_mem()
 			tmp2 = tmp->alloc;
 			while(tmp2)
 			{
-				// ft_putstr("mais what ?");
+				// ft_printf("\ntmp->start %zu\n", (uintmax_t)tmp2->start);
 				ft_putstr("0x");
 				ft_pututoabase((uintmax_t)tmp2->start, 16, 'a' + 23);
 				ft_putstr(" - 0x");

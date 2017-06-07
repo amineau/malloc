@@ -28,10 +28,8 @@ static int	nbrdigit(uintmax_t nbr, int base)
 void		    ft_pututoabase(uintmax_t value, int base, char c)
 {
 	int		pow;
-	int		i;
 	int		digit;
 
-	i = 0;
 	pow = nbrdigit(value, base);
 	while (--pow >= 0)
 	{
