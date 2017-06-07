@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 13:17:38 by amineau           #+#    #+#             */
-/*   Updated: 2017/04/08 10:57:12 by amineau          ###   ########.fr       */
+/*   Updated: 2017/06/07 21:31:19 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	show_alloc_mem()
 			tmp2 = tmp->alloc;
 			while(tmp2)
 			{
-				// ft_printf("\ntmp->start %zu\n", (uintmax_t)tmp2->start);
 				ft_putstr("0x");
 				ft_pututoabase((uintmax_t)tmp2->start, 16, 'a' + 23);
 				ft_putstr(" - 0x");

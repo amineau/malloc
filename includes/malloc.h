@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 09:27:29 by amineau           #+#    #+#             */
-/*   Updated: 2017/04/07 12:20:49 by amineau          ###   ########.fr       */
+/*   Updated: 2017/06/07 16:57:06 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "ft_printf.h"
 # include <sys/mman.h>
 
-# define TINY (unsigned int)getpagesize() * 10
+# define TINY (unsigned int)getpagesize() * 100
 # define SMALL (unsigned int)getpagesize() * 1000
 
 

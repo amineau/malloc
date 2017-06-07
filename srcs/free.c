@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:01:31 by amineau           #+#    #+#             */
-/*   Updated: 2017/04/07 16:43:53 by amineau          ###   ########.fr       */
+/*   Updated: 2017/06/07 21:55:23 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,67 @@
 
 t_zone **g_zone;
 
+
+static char *strcpylength(char *dst, const char *src, size_t length)
+{
+	int i;
+
+	i = 0;
+	if (!src)
+		return (dst);
+	while (i < length)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	return (dst);
+}
+
+static void	*ft_voidcpy(char *dst, const char *src, size_t length)
+{
+	int i;
+
+	ft_printf("length %zu\n", length);
+	i = 0;
+	if (!src)
+		return (dst);
+	while (i < length)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	return (dst);
+}
+
+static t_alloc *ft_defrag(t_zone *zone, t_alloc *toFree)
+{
+	size_t	length;
+	size_t	diff;
+	t_alloc	*tmp;
+
+	diff = (size_t)((void*)toFree->next - (void*)toFree);
+	length = zone->current->start + zone->current->length - (void*)toFree->next; //if (toFree->next == NULL ???)
+	ft_voidcpy((char*)toFree, (char*)toFree->next, length);
+	tmp = toFree;
+	while (tmp->next)
+	{
+		tmp->next = (void*)tmp->next - diff;
+		tmp->start = (void*)tmp->start - diff;
+		tmp = tmp->next;
+	}
+	tmp->start = (void*)tmp->start - diff;
+	return tmp;
+}
+
 void ft_free(void *ptr)
 {
 	t_zone	*tmp;
 	t_alloc *tmp2;
-	t_alloc *toFree;
 	int 	boolean;
 
 	boolean = 1;
 	tmp = *g_zone;
-// if last, change current alloc in g_zone
+
 	while (boolean && tmp)
 	{
 		if (tmp->alloc->start == ptr)
@@ -40,8 +91,13 @@ void ft_free(void *ptr)
 		{
 			if (tmp2->next->start == ptr)
 			{
-				toFree = tmp2->next;
-				tmp2->next = tmp2->next->next;
+				if (tmp2->next->next)
+					tmp->current = ft_defrag(tmp, tmp2->next);
+				else
+				{
+					tmp2->next = NULL;
+					tmp->current = tmp2;
+				}
 				boolean = 0;
 				break;
 			}

@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 11:54:02 by amineau           #+#    #+#             */
-/*   Updated: 2017/04/07 18:58:46 by amineau          ###   ########.fr       */
+/*   Updated: 2017/06/07 21:55:25 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,26 +84,47 @@ ft_printf("size %zu\n", size);
 
 int main()
 {
-	char **ptr;
-	int length = 1;
-	int i = 0;
+	// char *ptr;
+	// int length = 1;
+	// int i = 0;
+	//
+	//
+	// while (i < 5){
+	// 	ft_putnbrendl(i);
+	// 	ptr = (char*)ft_malloc(++i);
+	// 	show_alloc_mem();
+	// 	if (i > 3) {
+	// 		ft_free(ptr);
+	// 	}
+	// }
+	// show_alloc_mem();
+	// ptr = (char*)ft_malloc(15);
+	// show_alloc_mem();
+	int i;
+	char *addr;
+	char *ptr;
 
-
-	while (i < 5){
-		ft_putnbrendl(i);
-		ptr = (char*)ft_malloc(++i);
-		show_alloc_mem();
-		if (i > 3) {
-			ft_free(ptr);
-		}
+	i = 0;
+	addr = (char*)ft_malloc(1);
+	addr[0] = 42;
+	addr = (char*)ft_malloc(1);
+	addr[0] = 42;
+	ptr = (char*)ft_malloc(1024);
+	ptr[0] = 42;
+	while (i < 3)
+	{
+	addr = (char*)ft_malloc(1);
+	addr[0] = 'a';
+	i++;
 	}
 	show_alloc_mem();
+
 	ft_free(ptr);
 	show_alloc_mem();
-	ptr = (char*)ft_malloc(15);
+	ft_free(addr);
+	ptr = (char*)ft_malloc(1024);
+	ptr = (char*)ft_malloc(1024);
 	show_alloc_mem();
-	// ft_free(ptr);
-	// show_alloc_mem();
-;
+	ptr[0] = 42;
 	return (0);
 }
