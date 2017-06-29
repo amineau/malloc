@@ -35,7 +35,7 @@ size_t	length_zone(size_t size)
 	if (size > SMALL)
 		return (size);
 	length = (size + sizeof(t_alloc)) * 100 + sizeof(t_zone);
-	ft_printf("%zu ====== %zu\n", size, length);
+	//ft_printf("%zu ====== %zu\n", size, length);
 	if (length < TINY)
 		return (TINY);
 	else if (length < SMALL)

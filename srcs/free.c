@@ -34,7 +34,7 @@ static void	*ft_voidcpy(char *dst, const char *src, size_t length)
 {
 	int i;
 
-	ft_printf("length %zu\n", length);
+	// ft_printf("length %zu\n", length);
 	i = 0;
 	if (!src)
 		return (dst);
