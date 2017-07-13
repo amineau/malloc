@@ -47,7 +47,7 @@ clean:
 fclean: clean
 	@printf "$(YELLOW)%-30s$(WHITE)" "Deleting $(NAME)"
 	@rm -f $(NAME)
-	@make fclean libft
+	@cd libft && make fclean
 	@echo "$(GREENB)<<--$(WHITE)"
 
 re: fclean all
