@@ -1,23 +1,20 @@
 NAME=malloc
 CC = gcc
 
-SRCS = main.c show_alloc_mem.c zone_list.c zone.c get_static.c free.c
+SRCS = main.c utils.c
 
-LIBPATH = libft
 SPATH = srcs
 OPATH = objs
 HPATH = includes
-LFTHPATH = $(LIBPATH)/includes
 
-CFLAGS = -I./$(HPATH) -I./$(LFTHPATH) #-Wall -Werror -Wextra
-LIBS =-L./$(LIBPATH) -lprt
+CFLAGS = -I./$(HPATH) #-Wall -Werror -Wextra
 
 SRC = $(addprefix $(SPATH)/,$(SRCS))
 OBJ = $(addprefix $(OPATH)/,$(SRCS:.c=.o))
 
 WHITE	= \033[0m
 DARK	= \033[1;30m
-RED		= \033[1;31m
+RED	= \033[1;31m
 GREENB	= \033[1;32m
 GREEN	= \033[0;32m
 YELLOW	= \033[33m
@@ -26,9 +23,7 @@ CYAN	= \033[36m
 all: $(OPATH) $(NAME)
 
 $(NAME): $(OBJ)
-	@echo "$(YELLOW)Compilation Libft$(WHITE)"
-	@make -C $(LIBPATH)
-	@$(CC) $(CFLAGS) -o $@ $^ $(LIBS)\
+	@$(CC) $(CFLAGS) -o $@ $^ \
 	&& printf "$(YELLOW)%-30s$(DARK)-->>\t$(GREEN)$@$(WHITE)\n" "Compilation"\
 	|| (printf "$(YELLOW)%-30s$(DARK)-->>\t$(RED)$@$(WHITE)\n" "Compilation" \
 	&& exit 1)
@@ -52,9 +47,7 @@ clean:
 fclean: clean
 	@printf "$(YELLOW)%-30s$(WHITE)" "Deleting $(NAME)"
 	@rm -f $(NAME)
+	@make fclean libft
 	@echo "$(GREENB)<<--$(WHITE)"
-
-libclean: fclean
-	@make -C $(LIBPATH) fclean
 
 re: fclean all

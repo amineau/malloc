@@ -12,43 +12,35 @@
 
 #ifndef MALLOC_H
 # define MALLOC_H
-# include "libft.h"
-# include "ft_printf.h"
 # include <sys/mman.h>
 
 # define TINY (unsigned int)getpagesize() * 100
 # define SMALL (unsigned int)getpagesize() * 1000
 
 
-typedef struct 	s_alloc
+typedef struct 	s_block
 {
-	void			*start;
-	size_t			length;
-	struct s_alloc 	*next;
-}				t_alloc;
+	void			*data;
+	size_t			size;
+	int			free;
+	struct s_block	 	*next;
+}				t_block;
 
 typedef struct 	s_zone
 {
-	char				*type;
-	void				*start;
-	size_t			length;
-	t_alloc				*current;
-	t_alloc 			*alloc;
+	size_t				size;
+	t_block 			*block;
  	struct s_zone	*next;
 }				t_zone;
 
+# define BLOCK_STRUCT_SIZE sifeof(t_block)
+# define ZONE_STRUCT_SIZE sifeof(t_zone)
+
 extern t_zone 	**g_zone;
 
-void		ft_free(void *ptr);
-void 		*ft_malloc(size_t size);
-void 		*ft_realloc(void *ptr, size_t size);
-void		show_alloc_mem();
+//void		show_alloc_mem();
 
+//void		ft_putstr(char *str);
 
-t_zone	*zone_create(size_t size, char *type);
-void		zone_insert(t_zone *zone);
-char		*type_zone(size_t type);
-size_t	length_zone(size_t size);
-void 		free_zone(t_zone *zone);
 
 #endif
