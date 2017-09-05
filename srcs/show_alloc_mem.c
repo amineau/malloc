@@ -6,48 +6,64 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 13:17:38 by amineau           #+#    #+#             */
-/*   Updated: 2017/06/07 21:31:19 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 02:36:20 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-#include <stdio.h>
 
 t_zone **g_zone;
 
 void	show_alloc_mem()
 {
-	t_zone *tmp;
-	t_alloc *tmp2;
-	size_t size;
+	t_zone	*zone;
+	t_block	*block;
+	char	*type;
+	size_t	interval;
+	size_t	size;
+	int		i;
+	int		loop;
 
 	size = 0;
 	if (g_zone)
 	{
-		tmp = *g_zone;
-		while (tmp)
+		//Gros bug ici quand *g_zone est revenu à null
+		zone = *g_zone;
+		while (zone)
 		{
-			// ft_printf("%s : %p\n", tmp->type, tmp->start);
-			ft_putstr(tmp->type);
+			if (zone->size == TINY)
+				type = "TINY";
+			else if (zone->size == SMALL)
+				type = "SMALL";
+			else
+				type = "LARGE";
+			ft_putstr(type);
 			ft_putstr(" : 0x");
-			ft_pututoabaseendl((uintmax_t)tmp->start, 16, 'a' + 23);
-			tmp2 = tmp->alloc;
-			while(tmp2)
+			ft_pututoabase((uintmax_t)zone->data, 16, 'a' + 23);
+			ft_putstr("\n");
+			block = zone->block;
+			interval = size_of_data(zone->size) + BLOCK_STRUCT_SIZE;
+			i = 0;
+			loop = (zone->size > SMALL) ? 1 : 100;			
+			while(i++ < loop)
 			{
-				ft_putstr("0x");
-				ft_pututoabase((uintmax_t)tmp2->start, 16, 'a' + 23);
-				ft_putstr(" - 0x");
-				ft_pututoabase((uintmax_t)(tmp2->start + tmp2->length), 16, 'a' + 23);
-				ft_putstr(" : ");
-				ft_putunsi(tmp2->length);
-				ft_putstr(" octet");
-				if (tmp2->length != 1)
-					ft_putchar('s');
-				ft_putendl("");
-				size += tmp2->length;
-				tmp2 = tmp2->next;
+				if (block->size)
+				{
+					ft_putstr("0x");
+					ft_pututoabase((uintmax_t)block->data, 16, 'a' + 23);
+					ft_putstr(" - 0x");
+					ft_pututoabase((uintmax_t)(block->data + block->size), 16, 'a' + 23);
+					ft_putstr(" : ");
+					ft_putunsi(block->size);
+					ft_putstr(" octet");
+					if (block->size != 1)
+						ft_putchar('s');
+					ft_putstr("\n");
+					size += block->size;
+				}
+				block = (t_block*)((size_t)block + interval);
 			}
-			tmp = tmp->next;
+			zone = zone->next;
 		}
 	}
 	ft_putstr("Total : ");
@@ -55,5 +71,5 @@ void	show_alloc_mem()
 	ft_putstr(" octet");
 	if (size > 1)
 		ft_putchar('s');
-	ft_putendl("");
+	ft_putstr("\n");
 }
