@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 13:17:38 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 02:36:20 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 11:42:17 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	show_alloc_mem()
 	size = 0;
 	if (g_zone)
 	{
-		//Gros bug ici quand *g_zone est revenu à null
 		zone = *g_zone;
 		while (zone)
 		{

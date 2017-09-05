@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 09:27:29 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 02:18:20 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 11:11:54 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 
 # include <stdio.h>
 
-# define TINY (unsigned int)getpagesize() * 10
-# define SMALL (unsigned int)getpagesize() * 1000
 
 
 typedef struct 	s_block
@@ -38,9 +36,11 @@ typedef struct 	s_zone
 	size_t			size;
 	void			*data;	
 	t_block 		*block;
- 	struct s_zone	*next;
+	struct s_zone	*next;
 }				t_zone;
 
+# define TINY (unsigned int)getpagesize() * 10
+# define SMALL (unsigned int)getpagesize() * 1000
 # define BLOCK_STRUCT_SIZE sizeof(t_block)
 # define ZONE_STRUCT_SIZE sizeof(t_zone)
 

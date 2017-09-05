@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/04 16:34:28 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 02:37:23 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 11:47:59 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,12 +193,9 @@ int main()
 {
 	printf("TINY = %d\nSMALL = %d\nBLOCK_SIZE = %zu\nZONE_SIZE = %zu\n", TINY, SMALL, BLOCK_STRUCT_SIZE, ZONE_STRUCT_SIZE);
 	tests();
-	void *toto = ft_malloc(5000);
-	void *titi = ft_malloc(1);
+	ft_malloc(50000);
+	ft_malloc(50000);
 	show_alloc_mem();
-	ft_free(titi);
-	// show_alloc_mem();
-	ft_free(toto);
 	return (0);
 }
 

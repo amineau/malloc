@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:01:31 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 02:40:12 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 11:39:02 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,10 @@ t_zone	*find_zone(void *ptr)
 {
 	t_zone	*zone;
 
-	printf("hello\n");
 	zone = *g_zone;
-	printf("plop\n%#x\n", zone);
 	while (zone)
 	{
-		if (zone->data < ptr && ptr < zone->data + zone->size)
+		if (zone->data < ptr && ptr < zone->data + zone->size - ZONE_STRUCT_SIZE)
 			return (zone);
 		zone = zone->next;
 	}
@@ -54,11 +52,12 @@ void	free_zone (t_zone *zone)
 {
 	t_zone	*tmp;
 
+
 	tmp = *g_zone;
 	if (zone == tmp)
 	{
 		*g_zone = zone->next;
-		munmap((void*)zone, zone->size + ZONE_STRUCT_SIZE);		
+		munmap(zone, zone->size);	
 	}
 	else
 	{
@@ -67,7 +66,7 @@ void	free_zone (t_zone *zone)
 			if (tmp->next == zone)
 			{
 				tmp->next = tmp->next->next;
-				munmap((void*)zone, zone->size + ZONE_STRUCT_SIZE);
+				munmap((void*)zone, zone->size);
 				break;
 			}
 			tmp = tmp->next;
