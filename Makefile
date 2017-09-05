@@ -6,7 +6,7 @@
 #    By: amineau <amineau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/05 16:51:20 by amineau           #+#    #+#              #
-#    Updated: 2017/09/05 17:09:14 by amineau          ###   ########.fr        #
+#    Updated: 2017/09/05 21:47:16 by amineau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +18,15 @@ NAME=libft_malloc_$(HOSTTYPE).so
 LINK=libft_malloc.so
 CC = gcc
 
-SRCS = main.c free.c realloc.c show_alloc_mem.c utils.c
+SRCS = support.c free.c realloc.c show_alloc_mem.c utils.c
 
 SPATH = srcs
 OPATH = objs
 HPATH = includes
 
-CFLAGS = -I./$(HPATH) -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
+IFLAGS = -I./$(HPATH)
+SHFLAGS = -shared -fPIC
 
 SRC = $(addprefix $(SPATH)/,$(SRCS))
 OBJ = $(addprefix $(OPATH)/,$(SRCS:.c=.o))
@@ -41,17 +43,17 @@ all: $(OPATH) $(NAME)
 
 $(NAME): $(OBJ)
 	@printf "$(YELLOW)%-30s$(WHITE)" "Building $@"
-	@ar rc $@ $^ && echo "$(GREENB)<<--$(WHITE)" \
+	@$(CC) $(SHFLAGS) -o $@ $^ && echo "$(GREENB)<<--$(WHITE)" \
 	|| echo "$(RED)<<--$(WHITE)"
-	@ranlib $@
-	ln -s $(NAME) $(LINK)
+	@rm -rf $(LINK)
+	ln -s $@ $(LINK)
 $(OPATH):
 	@printf "$(YELLOW)%-30s$(WHITE)" "Creating $@ directory"
 	@mkdir -p $(OPATH)
 	@echo "$(GREENB)<<--$(WHITE)"
 
 $(OPATH)/%.o: $(SPATH)/%.c
-	@$(CC) $(CFLAGS) -o $@ -c $< \
+	@$(CC) $(CFLAGS) $(IFLAGS) -o $@ -c $< \
 	&& printf "%-30s$(DARK)-->>\t$(GREEN)$@$(WHITE)\n" "$<" \
 	|| (printf "%-30s$(DARK)-->>\t$(RED)$@$(WHITE)\n" "$<" \
 	&& exit 1)

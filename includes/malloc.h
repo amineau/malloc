@@ -6,12 +6,17 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 09:27:29 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 16:49:53 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 21:48:03 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
+# define TINY (unsigned int)getpagesize() * 26
+# define SMALL (unsigned int)getpagesize() * 2600
+# define BLOCK_STRUCT_SIZE sizeof(t_block)
+# define ZONE_STRUCT_SIZE sizeof(t_zone)
+
 # include <sys/mman.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -20,7 +25,7 @@
 # include <assert.h>
 # include <errno.h>
 
-# include <stdio.h>
+// # include <stdio.h>
 
 
 
@@ -39,16 +44,12 @@ typedef struct 	s_zone
 	struct s_zone	*next;
 }				t_zone;
 
-# define TINY (unsigned int)getpagesize() * 26
-# define SMALL (unsigned int)getpagesize() * 2600
-# define BLOCK_STRUCT_SIZE sizeof(t_block)
-# define ZONE_STRUCT_SIZE sizeof(t_zone)
 
 extern t_zone 	**g_zone;
 
-void		*ft_malloc(size_t size);
-void		ft_free(void *ptr);
-void		*ft_realloc(void *ptr, size_t size);
+void		*malloc(size_t size);
+void		free(void *ptr);
+void		*realloc(void *ptr, size_t size);
 void		show_alloc_mem();
 
 

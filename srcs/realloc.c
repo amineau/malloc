@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:02:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 17:29:50 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 21:25:14 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,17 @@ void	*realloc(void *ptr, size_t size)
 	void	*new_ptr;
 
 	if (!ptr)
-		return (ft_malloc(size));
+		return (malloc(size));
 	if (!size)
-		ft_free(ptr);
+		free(ptr);
 	else if ((zone = find_zone(ptr))
 		&& (block = find_block(ptr, zone)))
 	{
 		if (size_of_data(zone->size) < size)
 		{
-			new_ptr = ft_malloc(size);
+			new_ptr = malloc(size);
 			ft_memcpy(new_ptr, block->data, size_of_data(zone->size));
-			ft_free(ptr);
+			free(ptr);
 			ptr = new_ptr;
 		}
 		else
