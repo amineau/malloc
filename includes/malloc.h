@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 09:27:29 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 13:14:19 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 16:49:53 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ typedef struct 	s_zone
 	struct s_zone	*next;
 }				t_zone;
 
-# define TINY (unsigned int)getpagesize() * 10
-# define SMALL (unsigned int)getpagesize() * 1000
+# define TINY (unsigned int)getpagesize() * 26
+# define SMALL (unsigned int)getpagesize() * 2600
 # define BLOCK_STRUCT_SIZE sizeof(t_block)
 # define ZONE_STRUCT_SIZE sizeof(t_zone)
 
@@ -55,6 +55,8 @@ void		show_alloc_mem();
 size_t		size_of_data(size_t type);
 int			is_large (size_t type);
 t_zone		*find_zone(void *ptr);
+void		*init_page(size_t size);
+void		add_zone(t_zone *zone);
 
 
 void		ft_putstr(char const *str);

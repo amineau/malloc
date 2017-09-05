@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:01:31 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 12:19:33 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 17:35:11 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ t_zone **g_zone;
 t_zone	*find_zone(void *ptr)
 {
 	t_zone	*zone;
-	
+
 	if (!g_zone)
 		return (NULL);
 	zone = *g_zone;
 	while (zone)
 	{
-		if (zone->data < ptr && ptr < zone->data + zone->size - ZONE_STRUCT_SIZE)
+		if (zone->data < ptr
+				&& ptr < zone->data + zone->size - ZONE_STRUCT_SIZE)
 			return (zone);
 		zone = zone->next;
 	}
@@ -32,15 +33,15 @@ t_zone	*find_zone(void *ptr)
 
 int		is_empty(t_zone *zone)
 {
-	int 	i;
-	int 	loop;
+	int		i;
+	int		loop;
 	size_t	interval;
 	t_block	*block;
 
-	interval = size_of_data(zone->size) + BLOCK_STRUCT_SIZE;	
+	interval = size_of_data(zone->size) + BLOCK_STRUCT_SIZE;
 	block = zone->block;
 	i = 0;
-	loop = (zone->size > SMALL) ? 1 : 100;
+	loop = is_large(zone->size) ? 1 : 100;
 	while (i++ < loop)
 	{
 		if (block->size)
@@ -50,16 +51,15 @@ int		is_empty(t_zone *zone)
 	return (1);
 }
 
-void	free_zone (t_zone *zone)
+void	free_zone(t_zone *zone)
 {
 	t_zone	*tmp;
-
 
 	tmp = *g_zone;
 	if (zone == tmp)
 	{
 		*g_zone = zone->next;
-		munmap(zone, zone->size);	
+		munmap(zone, zone->size);
 	}
 	else
 	{
@@ -69,19 +69,38 @@ void	free_zone (t_zone *zone)
 			{
 				tmp->next = tmp->next->next;
 				munmap((void*)zone, zone->size);
-				break;
+				break ;
 			}
 			tmp = tmp->next;
 		}
 	}
 }
 
-void	ft_free(void *ptr)
+void	check_zones(t_zone *zone)
+{
+	t_zone	*tmp;
+
+	if (is_empty(zone))
+	{
+		tmp = *g_zone;
+		while (tmp)
+		{
+			if (tmp != zone && tmp->size == zone->size && is_empty(tmp))
+			{
+				free_zone(zone);
+				break ;
+			}
+			tmp = tmp->next;
+		}
+	}
+}
+
+void	free(void *ptr)
 {
 	t_zone	*zone;
 	t_block	*block;
 	size_t	interval;
-	
+
 	if ((zone = find_zone(ptr)))
 	{
 		interval = size_of_data(zone->size) + BLOCK_STRUCT_SIZE;
@@ -90,7 +109,6 @@ void	ft_free(void *ptr)
 			block = (t_block*)((size_t)block + interval);
 		if (block->data == ptr)
 			block->size = 0;
-		if (is_empty(zone))
-			free_zone(zone);
+		check_zones(zone);
 	}
 }

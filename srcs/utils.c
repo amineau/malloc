@@ -6,26 +6,26 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 00:37:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 13:08:40 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 17:19:06 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-static int	        nbrdigit(uintmax_t nbr, int base)
+static int			nbrdigit(uintmax_t nbr, int base)
 {
-    int pow;
+	int	pow;
 
-    pow = 0;
-    while (nbr / base != 0)
-    {
-        nbr = nbr / base;
-        pow++;
-    }
-    return (pow + 1);
+	pow = 0;
+	while (nbr / base != 0)
+	{
+		nbr = nbr / base;
+		pow++;
+	}
+	return (pow + 1);
 }
 
-static uintmax_t    ft_power(int nbr, int base)
+static uintmax_t	ft_power(int nbr, int base)
 {
 	int			i;
 	uintmax_t	res;
@@ -37,7 +37,7 @@ static uintmax_t    ft_power(int nbr, int base)
 	return (res);
 }
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void				*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	size_t		i;
 	char		*tmp1;
@@ -56,7 +56,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-void	            ft_putunsi(size_t n)
+void				ft_putunsi(size_t n)
 {
 	if (n >= 10)
 	{
@@ -67,23 +67,23 @@ void	            ft_putunsi(size_t n)
 		ft_putchar(n + 48);
 }
 
-void	            ft_putchar(char c)
+void				ft_putchar(char c)
 {
 	write(1, &c, 1);
 }
 
-void	            ft_putstr(char const *s)
+void				ft_putstr(char const *s)
 {
 	int i;
 
 	i = 0;
 	if (s)
-        while (s[i])
-            i++;
-    write(1, &s[0], i);
+		while (s[i])
+			i++;
+	write(1, &s[0], i);
 }
 
-void                ft_pututoabase(uintmax_t value, int base, char c)
+void				ft_pututoabase(uintmax_t value, int base, char c)
 {
 	int		pow;
 	int		digit;

@@ -4,7 +4,7 @@
 
         {
             "name": "Debug",
-            "type": "gdb",
+            "type": "lldb-mi",
             "request": "launch",
             "target": "./malloc",
             "cwd": "${workspaceRoot}"

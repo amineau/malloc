@@ -1,4 +1,21 @@
-NAME=malloc
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: amineau <amineau@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2017/09/05 16:51:20 by amineau           #+#    #+#              #
+#    Updated: 2017/09/05 17:09:14 by amineau          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+ifeq ($(HOSTTYPE),)
+	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
+
+NAME=libft_malloc_$(HOSTTYPE).so
+LINK=libft_malloc.so
 CC = gcc
 
 SRCS = main.c free.c realloc.c show_alloc_mem.c utils.c
@@ -7,7 +24,7 @@ SPATH = srcs
 OPATH = objs
 HPATH = includes
 
-CFLAGS = -I./$(HPATH) #-Wall -Werror -Wextra
+CFLAGS = -I./$(HPATH) -Wall -Werror -Wextra
 
 SRC = $(addprefix $(SPATH)/,$(SRCS))
 OBJ = $(addprefix $(OPATH)/,$(SRCS:.c=.o))
@@ -23,11 +40,11 @@ CYAN	= \033[36m
 all: $(OPATH) $(NAME)
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) -o $@ $^ \
-	&& printf "$(YELLOW)%-30s$(DARK)-->>\t$(GREEN)$@$(WHITE)\n" "Compilation"\
-	|| (printf "$(YELLOW)%-30s$(DARK)-->>\t$(RED)$@$(WHITE)\n" "Compilation" \
-	&& exit 1)
-
+	@printf "$(YELLOW)%-30s$(WHITE)" "Building $@"
+	@ar rc $@ $^ && echo "$(GREENB)<<--$(WHITE)" \
+	|| echo "$(RED)<<--$(WHITE)"
+	@ranlib $@
+	ln -s $(NAME) $(LINK)
 $(OPATH):
 	@printf "$(YELLOW)%-30s$(WHITE)" "Creating $@ directory"
 	@mkdir -p $(OPATH)
@@ -47,6 +64,9 @@ clean:
 fclean: clean
 	@printf "$(YELLOW)%-30s$(WHITE)" "Deleting $(NAME)"
 	@rm -f $(NAME)
+	@echo "$(GREENB)<<--$(WHITE)"
+	@printf "$(YELLOW)%-30s$(WHITE)" "Deleting $(LINK)"
+	@rm -f $(LINK)
 	@echo "$(GREENB)<<--$(WHITE)"
 
 re: fclean all
