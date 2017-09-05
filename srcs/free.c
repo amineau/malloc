@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:01:31 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 11:39:02 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 12:19:33 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ t_zone **g_zone;
 t_zone	*find_zone(void *ptr)
 {
 	t_zone	*zone;
-
+	
+	if (!g_zone)
+		return (NULL);
 	zone = *g_zone;
 	while (zone)
 	{

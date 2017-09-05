@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/04 16:34:28 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 11:47:59 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 13:17:43 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,18 @@ void	*init_page(size_t size)
 	void *result;
 	int prot;
 	int flags;
-
+	
 	prot = PROT_READ | PROT_WRITE;
 	flags = MAP_ANON | MAP_PRIVATE;
 	result = mmap(0, size, prot, flags, -1, 0);
 	if (result == MAP_FAILED)
-		return (NULL);
+	return (NULL);
 	return (result);
+}
+
+int		is_large (size_t type)
+{
+	return ((type == TINY || type == SMALL) ? 0 : 1);
 }
 
 size_t	size_of_data(size_t type)
@@ -33,7 +38,7 @@ size_t	size_of_data(size_t type)
 	size_t size;
 
 	size = type - ZONE_STRUCT_SIZE;
-	size = (type > SMALL) ? size : size / 100;
+	size = is_large(type) ? size : size / 100;
 	return (size - BLOCK_STRUCT_SIZE);
 }
 
@@ -56,13 +61,13 @@ t_zone	*create_zone(size_t size)
 	int		i;
 
 	initSize = size;
-	initSize += (size > SMALL) ? BLOCK_STRUCT_SIZE : 0 ;
+	initSize += is_large(size) ? BLOCK_STRUCT_SIZE : 0 ;
 	if (!(zone = (t_zone*)init_page(initSize)))
 		return (NULL);
 	zone->data = (void*)zone + ZONE_STRUCT_SIZE;
 	zone->size = initSize;
 	zone->block = create_block(zone->data, zone->size);
-	if (size <= SMALL)
+	if (!is_large(size))
 	{
 		i = 1;
 		interval = size_of_data(size) + BLOCK_STRUCT_SIZE;
@@ -86,6 +91,7 @@ size_t	type_zone(size_t size)
 		return (SMALL);
 	return (size);
 }
+
 
 t_block	*block_available (size_t type)
 {
@@ -128,7 +134,7 @@ void	*ft_malloc(size_t size)
 		*g_zone = NULL;
 	}
 	type = type_zone(size);
-	if (type > SMALL || !(block = block_available(type)))
+	if (is_large(type) || !(block = block_available(type)))
 	{
 		add_zone(create_zone(type));
 		block = (*g_zone)->block;
@@ -141,6 +147,10 @@ void tests ()
 {
 	assert(init_page(0) == NULL);
 	assert(init_page(1000) != NULL);
+
+	assert(is_large(TINY) == 0);
+	assert(is_large(SMALL) == 0);
+	assert(is_large(5000) == 1);
 
 	assert(type_zone(0) == TINY);
 	assert(type_zone((TINY - ZONE_STRUCT_SIZE) / 200 - BLOCK_STRUCT_SIZE) == TINY);
@@ -193,9 +203,15 @@ int main()
 {
 	printf("TINY = %d\nSMALL = %d\nBLOCK_SIZE = %zu\nZONE_SIZE = %zu\n", TINY, SMALL, BLOCK_STRUCT_SIZE, ZONE_STRUCT_SIZE);
 	tests();
-	ft_malloc(50000);
-	ft_malloc(50000);
+	char *toto;
+	char *bjr = "bonjour ";
+	toto = (char*)ft_malloc(10);
+	for(int i=0;bjr[i];i++)
+		toto[i] = bjr[i];
+	printf(toto);
 	show_alloc_mem();
+	toto = ft_realloc(toto, 500);
+	printf(toto);
 	return (0);
 }
 

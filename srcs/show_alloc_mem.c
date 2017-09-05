@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 13:17:38 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 11:42:17 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 12:09:02 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	show_alloc_mem()
 			block = zone->block;
 			interval = size_of_data(zone->size) + BLOCK_STRUCT_SIZE;
 			i = 0;
-			loop = (zone->size > SMALL) ? 1 : 100;			
+			loop = (is_large(zone->size)) ? 1 : 100;			
 			while(i++ < loop)
 			{
 				if (block->size)

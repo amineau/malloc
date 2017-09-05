@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 00:37:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 00:45:42 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 13:08:40 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,25 @@ static uintmax_t    ft_power(int nbr, int base)
 	while (i++ < nbr)
 		res *= base;
 	return (res);
+}
+
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	size_t		i;
+	char		*tmp1;
+	const char	*tmp2;
+
+	if (!src)
+		return (NULL);
+	i = 0;
+	tmp1 = dst;
+	tmp2 = src;
+	while (i < n)
+	{
+		tmp1[i] = tmp2[i];
+		i++;
+	}
+	return (dst);
 }
 
 void	            ft_putunsi(size_t n)

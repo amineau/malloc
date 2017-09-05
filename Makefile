@@ -1,7 +1,7 @@
 NAME=malloc
 CC = gcc
 
-SRCS = main.c free.c show_alloc_mem.c utils.c
+SRCS = main.c free.c realloc.c show_alloc_mem.c utils.c
 
 SPATH = srcs
 OPATH = objs
