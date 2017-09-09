@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 13:17:38 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 17:47:49 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/10 01:33:26 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,19 @@ t_zone **g_zone;
 
 size_t	show_block(t_block *block)
 {
-	size_t	size;
-
-	size = 0;
-	if (block->size)
-	{
-		ft_putstr("0x");
-		ft_pututoabase((uintmax_t)block->data, 16, 'a' + 23);
-		ft_putstr(" - 0x");
-		ft_pututoabase((uintmax_t)(block->data + block->size), 16, 'a' + 23);
-		ft_putstr(" : ");
-		ft_putunsi(block->size);
-		ft_putstr(" octet");
-		if (block->size != 1)
-			ft_putchar('s');
-		ft_putstr("\n");
-		size = block->size;
-	}
-	return (size);
+	if (!block->size)
+		return (0);
+	ft_putstr("0x");
+	ft_pututoabase((uintmax_t)block->data, 16, 'a' + 23);
+	ft_putstr(" - 0x");
+	ft_pututoabase((uintmax_t)(block->data + block->size), 16, 'a' + 23);
+	ft_putstr(" : ");
+	ft_putunsi(block->size);
+	ft_putstr(" octet");
+	if (block->size != 1)
+		ft_putchar('s');
+	ft_putstr("\n");
+	return (block->size);
 }
 
 void	show_type(size_t type)

@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:01:31 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/09 19:47:49 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/09 23:20:43 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,11 @@ void	free(void *ptr)
 		while (block->data < ptr)
 			block = (t_block*)((size_t)block + interval);
 		if (block->data == ptr)
+		{
+			if (MALLOC_SCRIBBLE)
+				ft_memset(block->data, 0x55,block->size);
 			block->size = 0;
+		}
 		check_zones(zone);
-	}
-	else
-	{
-		ft_putstr("malloc: *** error for object 0x");
-		ft_pututoabase((uintmax_t)ptr, 16, 'a' + 23);
-		ft_putstr(": pointer being freed was not allocated\n");
-		exit(1);
 	}
 }

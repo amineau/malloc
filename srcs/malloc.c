@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:02:16 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 22:20:52 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/10 01:45:33 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_block	*create_block(void *addr)
 	block = (t_block*)addr;
 	block->data = (void*)block + BLOCK_STRUCT_SIZE;
 	block->size = 0;
+	block->nbr_ret = 0;
 	return (block);
 }
 
@@ -73,12 +74,25 @@ t_block	*block_available(size_t type)
 	return (NULL);
 }
 
+void	init_block(t_block **addr_block, size_t size)
+{
+	t_block	*block;
+
+	block = *addr_block;
+	block->size = size;
+	if (MALLOC_PRE_SCRIBBLE)
+		ft_memset(block->data, 0xAA, size);
+	if (MALLOC_STACK_LOGGING)
+		block->nbr_ret = backtrace(block->buffer_stack, LENGTH_BUFFER_STACK);
+}
+
 void	*malloc(size_t size)
 {
 	size_t	type;
 	t_block	*block;
+	t_zone	*zone;
 
-	if (size <= 0)
+	if (size == 0)
 		return (NULL);
 	if (!g_zone)
 	{
@@ -89,9 +103,11 @@ void	*malloc(size_t size)
 	type = type_zone(size);
 	if (is_large(type) || !(block = block_available(type)))
 	{
-		add_zone(create_zone(type));
+		if (!(zone = create_zone(type)))
+			return (NULL);
+		add_zone(zone);
 		block = (*g_zone)->block;
 	}
-	block->size = size;
+	init_block(&block, size);
 	return (block->data);
 }
