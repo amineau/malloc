@@ -3,3 +3,5 @@ libft_malloc*
 .vscode
 run.sh
 tests
+test.c
+a.out
