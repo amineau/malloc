@@ -6,7 +6,7 @@
 #    By: amineau <amineau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/05 16:51:20 by amineau           #+#    #+#              #
-#    Updated: 2017/09/05 21:47:16 by amineau          ###   ########.fr        #
+#    Updated: 2017/09/05 22:18:47 by amineau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ NAME=libft_malloc_$(HOSTTYPE).so
 LINK=libft_malloc.so
 CC = gcc
 
-SRCS = support.c free.c realloc.c show_alloc_mem.c utils.c
+SRCS = malloc.c free.c realloc.c show_alloc_mem.c utils.c support.c
 
 SPATH = srcs
 OPATH = objs
@@ -26,7 +26,7 @@ HPATH = includes
 
 CFLAGS = -Wall -Werror -Wextra
 IFLAGS = -I./$(HPATH)
-SHFLAGS = -shared -fPIC
+SHFLAGS = -shared
 
 SRC = $(addprefix $(SPATH)/,$(SRCS))
 OBJ = $(addprefix $(OPATH)/,$(SRCS:.c=.o))

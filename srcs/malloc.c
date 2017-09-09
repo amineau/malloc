@@ -6,13 +6,13 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:02:16 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 17:26:01 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/05 22:20:52 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-t_block	*create_block(void *addr, size_t type)
+t_block	*create_block(void *addr)
 {
 	t_block	*block;
 
@@ -25,7 +25,6 @@ t_block	*create_block(void *addr, size_t type)
 t_zone	*create_zone(size_t size)
 {
 	t_zone	*zone;
-	t_block	*block;
 	size_t	init_size;
 	size_t	interval;
 	int		i;
@@ -36,13 +35,13 @@ t_zone	*create_zone(size_t size)
 		return (NULL);
 	zone->data = (void*)zone + ZONE_STRUCT_SIZE;
 	zone->size = init_size;
-	zone->block = create_block(zone->data, zone->size);
+	zone->block = create_block(zone->data);
 	if (!is_large(size))
 	{
 		i = 1;
 		interval = size_of_data(size) + BLOCK_STRUCT_SIZE;
 		while (i < 100)
-			create_block(zone->data + i++ * interval, zone->size);
+			create_block(zone->data + i++ * interval);
 	}
 	return (zone);
 }
