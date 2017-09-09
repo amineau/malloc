@@ -6,15 +6,15 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 09:27:29 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 23:13:38 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/09 18:22:06 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
 
-# define TINY (unsigned int)getpagesize() * 26
-# define SMALL (unsigned int)getpagesize() * 2600
+# define TINY (unsigned int)getpagesize() * 4
+# define SMALL (unsigned int)getpagesize() * 26
 # define BLOCK_STRUCT_SIZE sizeof(t_block)
 # define ZONE_STRUCT_SIZE sizeof(t_zone)
 
