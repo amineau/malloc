@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 00:37:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/09 19:23:59 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/10 17:07:03 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,26 @@ void				ft_pututoabase(uintmax_t value, int base, char c)
 		else
 			ft_putchar(digit + c - 33);
 	}
+}
+
+int					ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+size_t				ft_atounsi(const char *str)
+{
+	int		i;
+	size_t	nb;
+
+	i = 0;
+	nb = 0;
+	if (!str)
+		return (0);
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
+			|| str[i] == '\v' || str[i] == '\r' || str[i] == '\f')
+		i++;
+	while (ft_isdigit(str[i]))
+		nb = nb * 10 + str[i++] - 48;
+	return (nb);
 }

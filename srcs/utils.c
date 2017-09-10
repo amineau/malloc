@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 00:37:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/09 23:51:22 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/10 17:45:08 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void				*ft_memset(void *b, int c, size_t len)
 	size_t			i;
 	unsigned char	*tmp;
 
-	if (!b || !c)
+	if (!b)
 		return (NULL);
 	i = 0;
 	tmp = (unsigned char*)b;

@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 13:17:38 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/10 01:33:26 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/10 17:12:28 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ size_t	show_block(t_block *block)
 	if (block->size != 1)
 		ft_putchar('s');
 	ft_putstr("\n");
+	backtrace_symbols_fd(block->buffer_stack, block->nbr_ret ,1);
 	return (block->size);
 }
 

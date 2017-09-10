@@ -6,21 +6,37 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:02:16 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/10 01:45:33 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/10 16:46:12 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-t_block	*create_block(void *addr)
+t_block	*create_block(void *addr, int flag)
 {
 	t_block	*block;
+	size_t	size_pre_data;
 
+	size_pre_data = BLOCK_STRUCT_SIZE;
+	size_pre_data += flag ? MALLOC_GUARD_EDGES : 0;
 	block = (t_block*)addr;
-	block->data = (void*)block + BLOCK_STRUCT_SIZE;
+	block->data = (void*)block + size_pre_data;
 	block->size = 0;
 	block->nbr_ret = 0;
 	return (block);
+}
+
+size_t 	get_init_size(size_t size)
+{
+	if (is_large(size))
+	{
+		size += BLOCK_STRUCT_SIZE;
+		if (!MALLOC_DO_NOT_PROTECT_PRE_LUDE)
+			size += MALLOC_GUARD_EDGES;
+		if (!MALLOC_DO_NOT_PROTECT_POST_LUDE)
+			size += MALLOC_GUARD_EDGES;
+	}
+	return (size);
 }
 
 t_zone	*create_zone(size_t size)
@@ -30,19 +46,19 @@ t_zone	*create_zone(size_t size)
 	size_t	interval;
 	int		i;
 
-	init_size = size;
-	init_size += is_large(size) ? BLOCK_STRUCT_SIZE : 0;
+	init_size = get_init_size(size);
 	if (!(zone = (t_zone*)init_page(init_size)))
 		return (NULL);
 	zone->data = (void*)zone + ZONE_STRUCT_SIZE;
 	zone->size = init_size;
-	zone->block = create_block(zone->data);
+	zone->block = create_block(zone->data,
+		is_large(size) ? MALLOC_GUARD_EDGES && !MALLOC_DO_NOT_PROTECT_PRE_LUDE : 0);
 	if (!is_large(size))
 	{
 		i = 1;
 		interval = size_of_data(size) + BLOCK_STRUCT_SIZE;
 		while (i < 100)
-			create_block(zone->data + i++ * interval);
+			create_block(zone->data + i++ * interval, 0);
 	}
 	return (zone);
 }
@@ -81,9 +97,9 @@ void	init_block(t_block **addr_block, size_t size)
 	block = *addr_block;
 	block->size = size;
 	if (MALLOC_PRE_SCRIBBLE)
-		ft_memset(block->data, 0xAA, size);
+		ft_memset(block->data, DATA_PRE_SCRIBBLE, size);
 	if (MALLOC_STACK_LOGGING)
-		block->nbr_ret = backtrace(block->buffer_stack, LENGTH_BUFFER_STACK);
+		block->nbr_ret = backtrace(block->buffer_stack, SIZE_BUFFER_STACK);
 }
 
 void	*malloc(size_t size)

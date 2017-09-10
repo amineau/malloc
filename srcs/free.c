@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:01:31 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/09 23:20:43 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/10 14:43:20 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	free(void *ptr)
 		if (block->data == ptr)
 		{
 			if (MALLOC_SCRIBBLE)
-				ft_memset(block->data, 0x55,block->size);
+				ft_memset(block->data, DATA_SCRIBBLE,block->size);
 			block->size = 0;
 		}
 		check_zones(zone);
