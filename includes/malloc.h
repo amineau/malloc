@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 09:27:29 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/14 01:17:18 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/14 01:26:44 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # define BLOCK_STRUCT_SIZE sizeof(t_block)
 # define ZONE_STRUCT_SIZE sizeof(t_zone)
 
-
 # define MALLOC_VERBOSE getenv("MallocVerbose")
 # define MALLOC_SCRIBBLE getenv("MallocScribble")
 # define MALLOC_PRE_SCRIBBLE getenv("MallocPreScribble")
@@ -31,7 +30,6 @@
 # define SIZE_BUFFER_STACK 5
 # define DATA_SCRIBBLE 0x55
 # define DATA_PRE_SCRIBBLE 0xAA
-
 
 # include <sys/mman.h>
 # include <unistd.h>
