@@ -2,6 +2,7 @@ objs
 libft_malloc*
 .vscode
 run.sh
-tests
+test*
 test.c
 a.out
+*.json

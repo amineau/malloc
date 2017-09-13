@@ -6,7 +6,7 @@
 #    By: amineau <amineau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/05 16:51:20 by amineau           #+#    #+#              #
-#    Updated: 2017/09/09 19:25:15 by amineau          ###   ########.fr        #
+#    Updated: 2017/09/14 01:11:56 by amineau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LINK=libft_malloc.so
 CC = gcc
 
 SRCS = malloc.c free.c realloc.c show_alloc_mem.c utils.c support.c \
-		ft_pututoabase.c
+		ft_pututoabase.c error.c zone.c block.c
 
 SPATH = srcs
 OPATH = objs

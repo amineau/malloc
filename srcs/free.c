@@ -6,30 +6,11 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:01:31 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/10 14:43:20 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/14 01:16:56 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
-t_zone **g_zone;
-
-t_zone	*find_zone(void *ptr)
-{
-	t_zone	*zone;
-
-	if (!g_zone)
-		return (NULL);
-	zone = *g_zone;
-	while (zone)
-	{
-		if (zone->data < ptr
-				&& ptr < zone->data + zone->size - ZONE_STRUCT_SIZE)
-			return (zone);
-		zone = zone->next;
-	}
-	return (NULL);
-}
 
 int		is_empty(t_zone *zone)
 {
@@ -85,7 +66,8 @@ void	check_zones(t_zone *zone)
 		tmp = *g_zone;
 		while (tmp)
 		{
-			if (tmp != zone && tmp->size == zone->size && is_empty(tmp))
+			if ((tmp != zone && tmp->size == zone->size && is_empty(tmp))
+				|| is_large(zone->size))
 			{
 				free_zone(zone);
 				break ;
@@ -105,14 +87,18 @@ void	free(void *ptr)
 	{
 		interval = size_of_data(zone->size) + BLOCK_STRUCT_SIZE;
 		block = zone->block;
-		while (block->data < ptr)
+		while (block->data && block->data < ptr)
 			block = (t_block*)((size_t)block + interval);
-		if (block->data == ptr)
+		if (block->data && block->data == ptr && block->size)
 		{
 			if (MALLOC_SCRIBBLE)
-				ft_memset(block->data, DATA_SCRIBBLE,block->size);
+				ft_memset(block->data, DATA_SCRIBBLE, block->size);
 			block->size = 0;
+			check_zones(zone);
 		}
-		check_zones(zone);
+		else
+			is_not_allocated(ptr, "freed");
 	}
+	else
+		is_not_allocated(ptr, "freed");
 }

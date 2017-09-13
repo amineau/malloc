@@ -6,13 +6,13 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 00:37:23 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/10 17:07:03 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/14 00:50:23 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 
-static int			nbrdigit(uintmax_t nbr, int base)
+static int			nbrdigit(uint64_t nbr, int base)
 {
 	int	pow;
 
@@ -25,10 +25,10 @@ static int			nbrdigit(uintmax_t nbr, int base)
 	return (pow + 1);
 }
 
-static uintmax_t	ft_power(int nbr, int base)
+static uint64_t		ft_power(int nbr, int base)
 {
 	int			i;
-	uintmax_t	res;
+	uint64_t	res;
 
 	i = 0;
 	res = 1;
@@ -37,7 +37,7 @@ static uintmax_t	ft_power(int nbr, int base)
 	return (res);
 }
 
-void				ft_pututoabase(uintmax_t value, int base, char c)
+void				ft_pututoabase(uint64_t value, int base, char c)
 {
 	int		pow;
 	int		digit;
@@ -50,11 +50,11 @@ void				ft_pututoabase(uintmax_t value, int base, char c)
 		if (digit < 10)
 			ft_putchar(digit + 48);
 		else
-			ft_putchar(digit + c - 33);
+			ft_putchar(digit + c - 10);
 	}
 }
 
-int					ft_isdigit(int c)
+static int			ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
 }

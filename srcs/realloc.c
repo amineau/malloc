@@ -6,25 +6,11 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:02:58 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/05 21:25:14 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/14 01:16:32 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
-t_block	*find_block(void *ptr, t_zone *zone)
-{
-	t_block	*block;
-	size_t	interval;
-
-	interval = size_of_data(zone->size) + BLOCK_STRUCT_SIZE;
-	block = zone->block;
-	while (block->data < ptr)
-		block = (t_block*)((size_t)block + interval);
-	if (block->data == ptr)
-		return (block);
-	return (NULL);
-}
 
 void	*realloc(void *ptr, size_t size)
 {
@@ -50,5 +36,7 @@ void	*realloc(void *ptr, size_t size)
 			block->size = size;
 		return (ptr);
 	}
+	else
+		is_not_allocated(ptr, "realloc'd");
 	return (NULL);
 }

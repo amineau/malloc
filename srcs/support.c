@@ -6,13 +6,11 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/04 16:34:28 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/10 01:45:12 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/14 01:15:51 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
-t_zone	**g_zone = NULL;
 
 void	*init_page(size_t size)
 {
@@ -24,7 +22,11 @@ void	*init_page(size_t size)
 	flags = MAP_ANON | MAP_PRIVATE;
 	result = mmap(0, size, prot, flags, -1, 0);
 	if (result == MAP_FAILED)
+	{
+		insufficient_memory();
+		pthread_mutex_unlock(&g_mutex_stock);
 		return (NULL);
+	}
 	return (result);
 }
 
@@ -42,17 +44,15 @@ size_t	size_of_data(size_t type)
 	return (size - BLOCK_STRUCT_SIZE);
 }
 
-void	add_zone(t_zone *zone)
+size_t	get_init_size(size_t size)
 {
-	zone->next = *g_zone;
-	*g_zone = zone;
-}
-
-size_t	type_zone(size_t size)
-{
-	if (size <= (TINY - ZONE_STRUCT_SIZE) / 100 - BLOCK_STRUCT_SIZE)
-		return (TINY);
-	else if (size <= (SMALL - ZONE_STRUCT_SIZE) / 100 - BLOCK_STRUCT_SIZE)
-		return (SMALL);
+	if (is_large(size))
+	{
+		size += BLOCK_STRUCT_SIZE;
+		if (!MALLOC_DO_NOT_PROTECT_PRE_LUDE)
+			size += MALLOC_GUARD_EDGES;
+		if (!MALLOC_DO_NOT_PROTECT_POST_LUDE)
+			size += MALLOC_GUARD_EDGES;
+	}
 	return (size);
 }

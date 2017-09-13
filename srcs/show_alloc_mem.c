@@ -6,29 +6,27 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 13:17:38 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/10 17:12:28 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/14 00:51:34 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-
-t_zone **g_zone;
 
 size_t	show_block(t_block *block)
 {
 	if (!block->size)
 		return (0);
 	ft_putstr("0x");
-	ft_pututoabase((uintmax_t)block->data, 16, 'a' + 23);
+	ft_pututoabase((uint64_t)block->data, 16, 'a');
 	ft_putstr(" - 0x");
-	ft_pututoabase((uintmax_t)(block->data + block->size), 16, 'a' + 23);
+	ft_pututoabase((uint64_t)(block->data + block->size), 16, 'a');
 	ft_putstr(" : ");
 	ft_putunsi(block->size);
 	ft_putstr(" octet");
 	if (block->size != 1)
 		ft_putchar('s');
 	ft_putstr("\n");
-	backtrace_symbols_fd(block->buffer_stack, block->nbr_ret ,1);
+	backtrace_symbols_fd(block->buffer_stack, block->nbr_ret, 1);
 	return (block->size);
 }
 
@@ -67,7 +65,7 @@ size_t	show_zone(t_zone *zone)
 	loop = (is_large(zone->size)) ? 1 : 100;
 	show_type(zone->size);
 	ft_putstr(" : 0x");
-	ft_pututoabase((uintmax_t)zone->data, 16, 'a' + 23);
+	ft_pututoabase((uint64_t)zone->data, 16, 'a');
 	ft_putstr("\n");
 	while (i++ < loop)
 	{
