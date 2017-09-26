@@ -10,7 +10,7 @@ int main()
 
 	for (i = 0; i < 20; i++)
 	{
-		size = i * 64; 
+		size = i * 256;
 		ret = pthread_create (
 		& thread_store [i], NULL,
 			(void*)malloc, (void*)size

@@ -5,7 +5,7 @@ void handler()
 {
 	unsigned char	*addr;
 
-	addr = malloc(4066);
+	addr = malloc(406600);
 	show_alloc_mem();
 	free((void*)addr);
 }

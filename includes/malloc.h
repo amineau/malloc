@@ -6,26 +6,26 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 09:27:29 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/14 01:26:44 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/27 00:30:58 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
 
-# define TINY (unsigned int)getpagesize() * 7
-# define SMALL (unsigned int)getpagesize() * 27
+# define TINY (unsigned int)getpagesize() * 27
+# define SMALL (unsigned int)getpagesize() * 108
 
 # define BLOCK_STRUCT_SIZE sizeof(t_block)
 # define ZONE_STRUCT_SIZE sizeof(t_zone)
 
-# define MALLOC_VERBOSE getenv("MallocVerbose")
-# define MALLOC_SCRIBBLE getenv("MallocScribble")
-# define MALLOC_PRE_SCRIBBLE getenv("MallocPreScribble")
-# define MALLOC_STACK_LOGGING getenv("MallocStackLogging")
-# define MALLOC_GUARD_EDGES ft_atounsi(getenv("MallocGuardEdges"))
-# define MALLOC_DO_NOT_PROTECT_PRE_LUDE getenv("MallocDoNotProtectPreLude")
-# define MALLOC_DO_NOT_PROTECT_POST_LUDE getenv("MallocDoNotProtectPostLude")
+# define MALLOC_VERBOSE ft_getenv("MallocVerbose")
+# define MALLOC_SCRIBBLE ft_getenv("MallocScribble")
+# define MALLOC_PRE_SCRIBBLE ft_getenv("MallocPreScribble")
+# define MALLOC_STACK_LOGGING ft_getenv("MallocStackLogging")
+# define MALLOC_GUARD_EDGES ft_atounsi(ft_getenv("MallocGuardEdges"))
+# define MALLOC_DO_NOT_PROTECT_PRE_LUDE ft_getenv("MallocDoNotProtectPreLude")
+# define MALLOC_DO_NOT_PROTECT_POST_LUDE ft_getenv("MallocDoNotProtectPostLude")
 
 # define SIZE_BUFFER_STACK 5
 # define DATA_SCRIBBLE 0x55
@@ -53,13 +53,15 @@ typedef struct	s_zone
 	struct s_zone	*next;
 }				t_zone;
 
-extern t_zone			**g_zone;
-extern pthread_mutex_t	g_mutex_stock;
+t_zone					**g_zone;
+static pthread_mutex_t	g_mutex_stock = PTHREAD_MUTEX_INITIALIZER;
 
 void			*malloc(size_t size);
 void			free(void *ptr);
 void			*realloc(void *ptr, size_t size);
 void			show_alloc_mem();
+void			*malloc_no_lock(size_t size);
+void			free_no_lock(void *ptr);
 size_t			size_of_data(size_t type);
 int				is_large (size_t type);
 size_t			get_init_size(size_t size);
@@ -81,6 +83,7 @@ size_t			ft_atounsi(const char *str);
 void			ft_putunsi(size_t n);
 void			*ft_memcpy(void *dst, const void *src, size_t n);
 void			*ft_memset(void *b, int c, size_t len);
+const char		*ft_getenv(const char *var_env);
 void			is_not_allocated(void *ptr, const char *function_name);
 void			insufficient_memory();
 

@@ -49,8 +49,21 @@ t_zone	*create_zone(size_t size)
 
 void	add_zone(t_zone *zone)
 {
-	zone->next = *g_zone;
-	*g_zone = zone;
+	t_zone	*tmp;
+
+	if (!*g_zone || *g_zone > zone)
+	{
+		zone->next = *g_zone;
+		*g_zone = zone;
+	}
+	else
+	{
+		tmp = *g_zone;
+		while (tmp->next && tmp->next < zone)
+			tmp = tmp->next;
+		zone->next = tmp->next;
+		tmp->next = zone;
+	}
 }
 
 size_t	type_zone(size_t size)

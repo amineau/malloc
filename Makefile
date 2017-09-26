@@ -6,7 +6,7 @@
 #    By: amineau <amineau@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/05 16:51:20 by amineau           #+#    #+#              #
-#    Updated: 2017/09/14 01:11:56 by amineau          ###   ########.fr        #
+#    Updated: 2017/09/26 23:18:30 by amineau          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,16 +19,18 @@ LINK=libft_malloc.so
 CC = gcc
 
 SRCS = malloc.c free.c realloc.c show_alloc_mem.c utils.c support.c \
-		ft_pututoabase.c error.c zone.c block.c
+	 		 ft_pututoabase.c error.c zone.c block.c getenv.c
+INCS = malloc.h
 
 SPATH = srcs
 OPATH = objs
 HPATH = includes
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -Wdeprecated-declarations
 IFLAGS = -I./$(HPATH)
-SHFLAGS = -shared
+SHFLAGS = -shared -fPIC
 
+INC = $(addprefix $(HPATH)/,$(INCS))
 SRC = $(addprefix $(SPATH)/,$(SRCS))
 OBJ = $(addprefix $(OPATH)/,$(SRCS:.c=.o))
 
@@ -40,7 +42,7 @@ GREEN	= \033[0;32m
 YELLOW	= \033[33m
 CYAN	= \033[36m
 
-all: $(OPATH) $(NAME)
+all: $(OPATH) $(NAME) $(INC)
 
 $(NAME): $(OBJ)
 	@printf "$(YELLOW)%-30s$(WHITE)" "Building $@"
@@ -48,6 +50,7 @@ $(NAME): $(OBJ)
 	|| echo "$(RED)<<--$(WHITE)"
 	@rm -rf $(LINK)
 	ln -s $@ $(LINK)
+
 $(OPATH):
 	@printf "$(YELLOW)%-30s$(WHITE)" "Creating $@ directory"
 	@mkdir -p $(OPATH)

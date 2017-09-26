@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 13:17:38 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/14 00:51:34 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/14 17:01:42 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	show_alloc_mem(void)
 	t_zone	*zone;
 	size_t	total;
 
+	pthread_mutex_lock(&g_mutex_stock);
 	total = 0;
 	if (g_zone)
 	{
@@ -91,4 +92,5 @@ void	show_alloc_mem(void)
 		}
 	}
 	show_total(total);
+	pthread_mutex_unlock(&g_mutex_stock);
 }

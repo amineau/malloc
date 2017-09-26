@@ -6,7 +6,7 @@
 /*   By: amineau <amineau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/26 12:01:31 by amineau           #+#    #+#             */
-/*   Updated: 2017/09/14 01:16:56 by amineau          ###   ########.fr       */
+/*   Updated: 2017/09/14 19:18:01 by amineau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	check_zones(t_zone *zone)
 	}
 }
 
-void	free(void *ptr)
+void	free_no_lock(void *ptr)
 {
 	t_zone	*zone;
 	t_block	*block;
@@ -101,4 +101,11 @@ void	free(void *ptr)
 	}
 	else
 		is_not_allocated(ptr, "freed");
+}
+
+void	free(void *ptr)
+{
+	pthread_mutex_lock(&g_mutex_stock);
+	free_no_lock(ptr);
+	pthread_mutex_unlock(&g_mutex_stock);
 }
